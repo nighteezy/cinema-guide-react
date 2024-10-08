@@ -1,0 +1,130 @@
+.movie {
+  display: flex;
+  padding-top: 108px;
+  padding-bottom: 122px;
+}
+
+.movie__wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  width: 900px;
+  height: 680px;
+}
+
+.movie__wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.5) 20.41%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.movie__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.movie__card {
+  width: 600px;
+}
+
+.movie__info {
+  display: flex;
+  gap: 0 16px;
+  align-items: center;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--color-grey);
+  padding-bottom: 16px;
+}
+
+.movie__title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  color: var(--color-white);
+  padding-bottom: 16px;
+}
+
+.movie__rating {
+  color: var(--color-white);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.movie__rating--gold {
+  background-color: #a59400;
+}
+
+.movie__rating--green {
+  background-color: #308e21;
+}
+
+.movie__rating--grey {
+  background-color: #777;
+}
+
+.movie__rating--red {
+  background-color: #c82020;
+}
+.movie__rating--invisible {
+  display: none;
+}
+
+.movie__rating svg {
+  margin-right: 4px;
+}
+
+.movie__descr {
+  font-size: 24px;
+  line-height: 32px;
+  margin-bottom: 60px;
+  color: var(--color-grey);
+}
+
+.movie__btns {
+  display: flex;
+  gap: 0 16px;
+  align-items: center;
+}
+
+.movie__btns-trailer,
+.movie__btns-about {
+  padding: 16px 48px;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+  border: 1px solid var(--color-purple);
+  border-radius: 28px;
+  color: var(--color-white);
+  background-color: var(--color-purple);
+}
+
+.movie__btns-about {
+  border: 1px solid var(--color-dark-grey);
+  background-color: var(--color-dark-grey);
+}
+
+.movie__btns-favorite,
+.movie__btns-update {
+  padding: 16px 22px;
+  border: 1px solid var(--color-dark-grey);
+  border-radius: 28px;
+  background-color: var(--color-dark-grey);
+}

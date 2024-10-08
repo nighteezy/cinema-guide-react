@@ -1,0 +1,33 @@
+.header {
+  flex: 0 0 auto;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.header__container {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 133%;
+}
+
+.logo {
+  margin-right: 80px;
+}
+
+.nav {
+  display: flex;
+  gap: 40px;
+  margin-right: 40px;
+  color: var(--color-white);
+}
+
+.header__btn {
+  background-color: inherit;
+  border: none;
+  font-size: 24px;
+  color: var(--color-white);
+}
