@@ -13,22 +13,22 @@ type TProps = {
 };
 
 export const Movie: FC<TProps> = ({ data, getData }) => {
+  const ratingClass = data.tmdbRating
+    ? `movie__rating movie__rating${getRatingClass(data.tmdbRating)}`
+    : 'movie__rating--invisible';
   return (
     <div className="movie">
       <div className="movie__wrapper">
-        <img className="movie__img" src={data.backdropUrl} />
+        <img
+          className="movie__img"
+          src={data.backdropUrl}
+          alt={`Постер фильма ${data.title}`}
+        />
       </div>
 
       <div className="movie__card">
         <div className="movie__info">
-          <span
-            className={
-              data.tmdbRating
-                ? 'movie__rating movie__rating' +
-                  getRatingClass(data.tmdbRating)
-                : 'movie__rating--invisible'
-            }
-          >
+          <span className={ratingClass}>
             <svg
               width="16"
               height="16"

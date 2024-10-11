@@ -1,5 +1,18 @@
+.search-wrapper {
+  margin-right: 80px;
+}
+
 .search {
-    margin-right: 80px;
-    height: 48px;
-    width: 100%;
+  display: flex;
+  gap: 0 12px;
+  align-items: center;
+  max-width: 559px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: var(--color-dark-grey);
+}
+
+.search__input {
+  background-color: var(--color-dark-grey);
 }

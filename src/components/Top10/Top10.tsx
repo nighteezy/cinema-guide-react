@@ -10,7 +10,12 @@ export const Top10: FC = () => {
 
   const getData = async (): Promise<void> => {
     const data = await getTop10Movie();
-    setData(data);
+    const topRatedMovies = data
+      .filter(movie => movie.posterUrl && movie.tmdbRating > 0)
+      .sort((a, b) => b.tmdbRating - a.tmdbRating)
+      .slice(0, 10);
+
+    setData(topRatedMovies);
   };
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export const Top10: FC = () => {
                 <img
                   src={movie.posterUrl}
                   className="top10__img"
-                  alt="Постер фильма"
+                  alt={`Постер фильма ${movie.title}`}
                 />
               </Link>
             </div>
