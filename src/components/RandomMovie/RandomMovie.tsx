@@ -22,9 +22,11 @@ export const RandomMovie: FC = () => {
 
   if (data) {
     return (
-      <div className="random-movie container">
+      <div className="random-movie">
         <Movie data={data} getData={getData} />
       </div>
     );
   }
 };
+
+export default RandomMovie;

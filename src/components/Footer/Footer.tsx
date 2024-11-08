@@ -144,3 +144,5 @@ export const Footer: FC = () => {
     </footer>
   );
 };
+
+export default Footer;

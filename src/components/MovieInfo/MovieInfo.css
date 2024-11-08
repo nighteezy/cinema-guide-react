@@ -1,0 +1,58 @@
+.movie__info {
+  display: flex;
+  gap: 0 16px;
+  align-items: center;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--color-grey);
+  padding-bottom: 16px;
+}
+
+.movie__rating {
+  color: var(--color-white);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.movie__rating--gold {
+  background-color: #a59400;
+}
+
+.movie__rating--green {
+  background-color: #308e21;
+}
+
+.movie__rating--grey {
+  background-color: #777;
+}
+
+.movie__rating--red {
+  background-color: #c82020;
+}
+.movie__rating--invisible {
+  display: none;
+}
+
+.movie__rating svg {
+  margin-right: 4px;
+}
+
+.movie__info-search {
+  padding-bottom: 8px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.movie__rating--font {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.movie__rating--font svg {
+  width: 10px;
+  height: 10px;
+}

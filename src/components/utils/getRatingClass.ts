@@ -1,14 +1,16 @@
 export function getRatingClass(rating: number): string {
-  switch (true) {
-    case rating >= 8:
-      return '--gold';
-    case rating >= 7:
-      return '--green';
-    case rating >= 5:
-      return '--grey';
-    case rating < 5:
-      return '--red';
-    default:
-      return 'movie__rating';
-  }
+  const ratingClass =
+    rating >= 8
+      ? '--gold'
+      : rating >= 7
+      ? '--green'
+      : rating >= 5
+      ? '--grey'
+      : rating < 5
+      ? '--red'
+      : '';
+
+  return ratingClass
+    ? `movie__rating movie__rating${ratingClass}`
+    : 'movie__rating--invisible';
 }

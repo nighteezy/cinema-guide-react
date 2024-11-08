@@ -2,20 +2,22 @@ import { FC } from 'react';
 import React from 'react';
 import { Film } from '../../interfaces';
 import './Movie.css';
-import { getRatingClass } from '../utils/getRatingClass';
-import { getTimeForMins } from '../utils/getTimeForMins';
-import { Link } from 'react-router-dom';
-import { getFormattedRating } from '../utils/getFormattedRating';
+import { Link, useParams } from 'react-router-dom';
+import MovieInfo from '../MovieInfo/MovieInfo';
 
 type TProps = {
   data: Film;
   getData?: () => Promise<void>;
 };
 
-export const Movie: FC<TProps> = ({ data, getData }) => {
-  const ratingClass = data.tmdbRating
-    ? `movie__rating movie__rating${getRatingClass(data.tmdbRating)}`
-    : 'movie__rating--invisible';
+export const Movie: FC<TProps> = ({ data }) => {
+  const { movieId } = useParams();
+  if (!data) {
+    return <p>Данные о фильме не загружены.</p>;
+  }
+  const primaryGenre =
+    data.genres && data.genres.length > 0 ? data.genres[0] : 'Не указано';
+
   return (
     <div className="movie">
       <div className="movie__wrapper">
@@ -27,26 +29,12 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
       </div>
 
       <div className="movie__card">
-        <div className="movie__info">
-          <span className={ratingClass}>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.00105 12.1733L3.29875 14.8054L4.34897 9.51991L0.392578 5.86118L5.74394 5.22669L8.00105 0.333313L10.2581 5.22669L15.6095 5.86118L11.6531 9.51991L12.7033 14.8054L8.00105 12.1733Z"
-                fill="white"
-              />
-            </svg>
-            {getFormattedRating(data.tmdbRating)}
-          </span>
-          <span className="movie__release">{data.releaseYear}</span>
-          <span className="movie__genre">{data.genres[0]}</span>
-          <span className="movie__runtime">{getTimeForMins(data.runtime)}</span>
-        </div>
+        <MovieInfo
+          tmdbRating={data.tmdbRating}
+          releaseYear={data.releaseYear}
+          genre={primaryGenre}
+          runtime={data.runtime}
+        />
 
         <h1 className="movie__title title">{data.title}</h1>
         <p className="movie__descr">{data.plot}</p>
@@ -56,7 +44,7 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
             <button className="movie__btns-trailer">Трейлер</button>
           </li>
           <li className="movie__btns-item">
-            <Link to="">
+            <Link to={`/movie/${data.id}`} key={data.id}>
               <button className="movie__btns-about">О фильме</button>
             </Link>
           </li>
@@ -97,3 +85,5 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
     </div>
   );
 };
+
+export default Movie;

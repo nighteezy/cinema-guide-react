@@ -1,0 +1,42 @@
+.genres {
+  padding-top: 64px;
+  padding-bottom: 148px;
+}
+
+.genres__title {
+  margin-bottom: 52px;
+}
+
+.genres__list {
+  display: grid;
+  grid-gap: 40px;
+  grid-template-columns: repeat(auto-fill, 290px);
+  margin: auto;
+  justify-content: center;
+}
+
+.genres__item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  width: 290px;
+  height: 304px;
+  box-shadow: 0 0 80px 0 rgba(255, 255, 255, 0.33);
+}
+
+.genres__text {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+  background: var(--color-black);
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 133%;
+  color: var(--color-white);
+  z-index: 1;
+}

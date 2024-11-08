@@ -1,5 +1,5 @@
 export interface Genre {
-  eu: string;
+  en: string;
   ru: string;
 }
 

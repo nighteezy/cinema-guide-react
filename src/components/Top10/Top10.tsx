@@ -4,16 +4,17 @@ import React from 'react';
 import { getTop10Movie } from '../../api/MovieApi';
 import { Link } from 'react-router-dom';
 import './Top10.css';
+import { useAppDispatch } from '../../store/hooks';
+import { setMovie } from '../../store/movieSlice';
 
 export const Top10: FC = () => {
   const [data, setData] = useState<Movies>([]);
+  const dispatch = useAppDispatch();
 
   const getData = async (): Promise<void> => {
     const data = await getTop10Movie();
-    const topRatedMovies = data
-      .filter(movie => movie.posterUrl && movie.tmdbRating > 0)
-      .sort((a, b) => b.tmdbRating - a.tmdbRating)
-      .slice(0, 10);
+    console.log(data);
+    const topRatedMovies = data;
 
     setData(topRatedMovies);
   };
@@ -22,8 +23,13 @@ export const Top10: FC = () => {
     getData();
   }, []);
 
+  const handleMovieClick = (movie: any) => {
+    dispatch(setMovie(movie));
+  };
+  console.log(data);
+
   return (
-    <div className="container">
+    <div>
       <div className="top10">
         <h2 className="top10__title">Топ 10 фильмов</h2>
 
@@ -33,6 +39,7 @@ export const Top10: FC = () => {
               <Link
                 className="top10__link"
                 to={`/movie/${data[index].id}`}
+                onClick={() => handleMovieClick(movie)}
                 key={data[index].id}
               >
                 <span className="top10__place">{index + 1}</span>
@@ -49,3 +56,5 @@ export const Top10: FC = () => {
     </div>
   );
 };
+
+export default Top10;

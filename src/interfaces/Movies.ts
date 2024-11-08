@@ -24,7 +24,7 @@ export interface Film {
   cast: string[];
   director: string;
   production: string;
-  awardsSDummary: string;
+  awardsSummary: string;
 }
 
 export type Movies = Film[];
