@@ -15,13 +15,10 @@ const initialState: GenreState = {
   error: null,
 };
 
-export const fetchGenres = createAsyncThunk(
-  'genre/fetchGenres',
-  async (genre: string) => {
-    const genres = await getGenre();
-    return genres;
-  }
-);
+export const fetchGenres = createAsyncThunk('genre/fetchGenres', async () => {
+  const genres = await getGenre();
+  return genres;
+});
 
 export const genreSlice = createSlice({
   name: 'genre',
