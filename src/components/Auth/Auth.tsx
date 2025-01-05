@@ -1,15 +1,36 @@
-import React from 'react';
-import { FC } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
+import { useAppDispatch } from '../../store/hooks';
+import { fetchAuth, fetchUserProfile } from '../../store/authSlice';
 
 const Auth: FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const dispatch = useAppDispatch();
+
+  const handleLogin = async (e: FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    try {
+      const userResponse = await dispatch(
+        fetchAuth({ email, password })
+      ).unwrap();
+      if (userResponse) {
+        const user = await dispatch(fetchUserProfile());
+      }
+    } catch (error) {
+      console.error('Ошибка:', error);
+      alert('Ошибка входа. Попробуйте еще раз.');
+    }
+  };
+
   return (
     <>
-      <form className="auth-form">
-        <ul className="list-reset">
-          <li>
+      <form className="auth-form form" onSubmit={handleLogin}>
+        <ul className="list-reset form__list">
+          <li className="form__item">
             <svg
-              width="22"
-              height="18"
+              width="24"
+              height="24"
               viewBox="0 0 22 18"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -21,14 +42,19 @@ const Auth: FC = () => {
               />
             </svg>
             <input
-              className="auth-form__input"
+              className="form__input"
               placeholder="Электронная почта"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              type="email"
+              required
             />
           </li>
-          <li>
+
+          <li className="form__item">
             <svg
-              width="22"
-              height="12"
+              width="24"
+              height="24"
               viewBox="0 0 22 12"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -39,9 +65,20 @@ const Auth: FC = () => {
                 fillOpacity="0.4"
               />
             </svg>
-            <input className="auth-form__input" placeholder="Пароль" />
+            <input
+              className="form__input"
+              placeholder="Пароль"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              type="password"
+              required
+            />
           </li>
         </ul>
+
+        <button type="submit" className="btn-reset modal__btn--login">
+          Войти
+        </button>
       </form>
     </>
   );

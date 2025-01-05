@@ -1,0 +1,79 @@
+.modal__content {
+  padding: 64px 40px;
+  text-align: center;
+}
+
+.modal__img {
+  max-width: 180px;
+  margin-bottom: 40px;
+}
+
+.modal__btn--login {
+  width: 100%;
+  padding: 16px 0;
+  border: none;
+  border-radius: 28px;
+  color: var(--color-white);
+  background: var(--color-purple);
+}
+
+.modal__btn--registration {
+  background: none;
+  border: none;
+  color: var(--color-black);
+}
+
+.modal__btn--registration,
+.modal__btn--login {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 133%;
+  cursor: pointer;
+}
+
+.form {
+  margin-bottom: 24px;
+}
+
+.form__title,
+.form__list {
+  margin-bottom: 24px;
+}
+
+.form__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0 16px;
+  border: 1px solid #00000066;
+  border-radius: 8px;
+}
+
+.form__item svg {
+  max-width: 24px;
+  max-height: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.form__input,
+.form__input::placeholder {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 133%;
+}
+
+.form__item:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.form__input {
+  height: 56px;
+  width: 100%;
+  border: none;
+  outline: none;
+}

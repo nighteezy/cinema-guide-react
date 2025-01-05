@@ -1,91 +1,111 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import { FC } from 'react';
+import z from 'zod';
+import { registrationUser } from '../../api/AuthApi';
+
+const registrationSchema = z
+  .object({
+    email: z.string().email('Некорhектный email'),
+    name: z.string().min(1, 'Имя обязательно'),
+    surname: z.string().min(1, 'Фамилия обязательна'),
+    password: z.string().min(6, 'Пароль должен содержать минимум 6 символов'),
+    confirmPassword: z.string().min(6, 'Подтверждение пароля обязательно'),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'Пароли не совпадают',
+    path: ['confirmPassword'],
+  });
 
 const Registration: FC = () => {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    const formData = { email, name, surname, password, confirmPassword };
+    try {
+      registrationSchema.parse(formData);
+      setError('');
+      setSuccess('');
+      await registrationUser(email, name, surname, password);
+      setIsRegistered(true);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setError(error.errors.map(e => e.message).join(', '));
+      } else {
+        setError('Ошибка при регистрации. Попробуйте еще раз.');
+      }
+    }
+  };
   return (
-    <form>
-      <h3>Регистрация</h3>
-      <ul>
-        <li>
-          <svg
-            width="22"
-            height="18"
-            viewBox="0 0 22 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21 0C21.5523 0 22 0.44772 22 1V17.0066C22 17.5552 21.5447 18 21.0082 18H2.9918C2.44405 18 2 17.5551 2 17.0066V16H20V4.3L12 11.5L2 2.5V1C2 0.44772 2.44772 0 3 0H21ZM8 12V14H0V12H8ZM5 7V9H0V7H5ZM19.5659 2H4.43414L12 8.8093L19.5659 2Z"
-              fill="black"
-              fill-opacity="0.4"
-            />
-          </svg>
-          <input type="text" placeholder="Электронная почта" />
-        </li>
-        <li>
-          <svg
-            width="16"
-            height="21"
-            viewBox="0 0 16 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z"
-              fill="#FF7575"
-            />
-            <input type="text" placeholder="Имя" />
-          </svg>
-        </li>
-        <li>
-          <svg
-            width="16"
-            height="21"
-            viewBox="0 0 16 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 21C0 16.5817 3.58172 13 8 13C12.4183 13 16 16.5817 16 21H14C14 17.6863 11.3137 15 8 15C4.68629 15 2 17.6863 2 21H0ZM8 12C4.685 12 2 9.315 2 6C2 2.685 4.685 0 8 0C11.315 0 14 2.685 14 6C14 9.315 11.315 12 8 12ZM8 10C10.21 10 12 8.21 12 6C12 3.79 10.21 2 8 2C5.79 2 4 3.79 4 6C4 8.21 5.79 10 8 10Z"
-              fill="#FF7575"
-            />
-            <input type="text" placeholder="Фамилия" />
-          </svg>
-        </li>
-        <li>
-          <svg
-            width="22"
-            height="12"
-            viewBox="0 0 22 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11.917 7C11.441 9.8377 8.973 12 6 12C2.68629 12 0 9.3137 0 6C0 2.68629 2.68629 0 6 0C8.973 0 11.441 2.16229 11.917 5H22V7H20V11H18V7H16V11H14V7H11.917ZM6 10C8.20914 10 10 8.2091 10 6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.2091 3.79086 10 6 10Z"
-              fill="black"
-              fill-opacity="0.4"
-            />
-          </svg>
-          <input type="text" placeholder="Пароль" />
-        </li>
-        <li>
-          <svg
-            width="22"
-            height="12"
-            viewBox="0 0 22 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11.917 7C11.441 9.8377 8.973 12 6 12C2.68629 12 0 9.3137 0 6C0 2.68629 2.68629 0 6 0C8.973 0 11.441 2.16229 11.917 5H22V7H20V11H18V7H16V11H14V7H11.917ZM6 10C8.20914 10 10 8.2091 10 6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.2091 3.79086 10 6 10Z"
-              fill="black"
-              fill-opacity="0.4"
-            />
-          </svg>
-          <input type="text" placeholder="Подтвердить пароль" />
-        </li>
-      </ul>
-    </form>
+    <div>
+      {isRegistered ? (
+        <div>
+          <h3 className="title form__title">Регистрация прошла успешно!</h3>
+          <p>Используйте вашу электронную почту для входа</p>
+        </div>
+      ) : (
+        <form className="form" onSubmit={handleSubmit}>
+          <h3 className="title form__title">Регистрация</h3>
+          <ul className="list-reset form__list">
+            <li className="form__item">
+              <input
+                className="form__input"
+                type="text"
+                placeholder="Электронная почта"
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+            </li>
+            <li className="form__item">
+              <input
+                className="form__input"
+                type="text"
+                placeholder="Имя"
+                onChange={e => setName(e.target.value)}
+                required
+              />
+            </li>
+            <li className="form__item">
+              <input
+                className="form__input"
+                type="text"
+                placeholder="Фамилия"
+                onChange={e => setSurname(e.target.value)}
+                required
+              />
+            </li>
+            <li className="form__item">
+              <input
+                className="form__input"
+                type="password"
+                placeholder="Пароль"
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </li>
+            <li className="form__item">
+              <input
+                className="form__input"
+                type="password"
+                placeholder="Подтвердить пароль"
+                onChange={e => setConfirmPassword(e.target.value)}
+                required
+              />
+            </li>
+          </ul>
+          <button type="submit" className="btn-reset modal__btn--login">
+            Создать аккаунт
+          </button>
+        </form>
+      )}
+    </div>
   );
 };
 

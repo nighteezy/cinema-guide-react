@@ -6,6 +6,7 @@ const LazyHomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const LazyGenresPage = lazy(() => import('./pages/GenresPage/GenresPage'));
 const LazyGenrePage = lazy(() => import('./pages/GenrePage/GenrePage'));
 const LazyMoviePage = lazy(() => import('./pages/MoviePage/MoviePage'));
+const LazeProfilePage = lazy(() => import('./pages/ProfilePage/ProfilePage'));
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
             <Route path="genres" element={<LazyGenresPage />} />
             <Route path="genre/:genreName" element={<LazyGenrePage />} />
             <Route path="movie/:movieId" element={<LazyMoviePage />} />
+            <Route path="profile" element={<LazeProfilePage />} />
           </Route>
         </Routes>
       </Suspense>

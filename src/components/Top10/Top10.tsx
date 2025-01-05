@@ -13,7 +13,6 @@ export const Top10: FC = () => {
 
   const getData = async (): Promise<void> => {
     const data = await getTop10Movie();
-    console.log(data);
     const topRatedMovies = data;
 
     setData(topRatedMovies);
@@ -26,7 +25,6 @@ export const Top10: FC = () => {
   const handleMovieClick = (movie: any) => {
     dispatch(setMovie(movie));
   };
-  console.log(data);
 
   return (
     <div>

@@ -1,19 +1,18 @@
-import axios from 'axios';
+import axiosInstance from './axiosConfig';
 import { Login, Profile, Registration } from '../interfaces';
-import { API_URL } from './config';
 
 export const LoginUser = async (
   email: string,
   password: string
 ): Promise<Login> => {
-  const url = `${API_URL}/auth/login`;
-  const response = await axios.get<Login>(url);
+  const url = `/auth/login`;
+  const response = await axiosInstance.post<Login>(url, { email, password });
   return response.data;
 };
 
-export const LogOutUser = async (): Promise<Login> => {
-  const url = `${API_URL}/auth/logout`;
-  const response = await axios.get<Login>(url);
+export const LogOutUser = async (): Promise<void> => {
+  const url = `/auth/logout`;
+  const response = await axiosInstance.get(url);
   return response.data;
 };
 
@@ -23,13 +22,18 @@ export const registrationUser = async (
   name: string,
   surname: string
 ): Promise<Registration> => {
-  const url = `${API_URL}/user`;
-  const response = await axios.get<Registration>(url);
+  const url = `/user`;
+  const response = await axiosInstance.post<Registration>(url, {
+    email,
+    password,
+    name,
+    surname,
+  });
   return response.data;
 };
 
 export const profileUser = async (): Promise<Profile> => {
-  const url = `${API_URL}/profile`;
-  const response = await axios.get<Profile>(url);
+  const url = `/profile`;
+  const response = await axiosInstance.get<Profile>(url);
   return response.data;
 };

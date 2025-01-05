@@ -1,9 +1,8 @@
-import axios from 'axios';
-import { API_URL } from './config';
 import { Genre } from '../interfaces';
+import axiosInstance from './axiosConfig';
 
 export const getGenre = async (): Promise<Genre> => {
-  const url = `${API_URL}/movie/genres`;
-  const response = await axios.get<Genre>(url);
+  const url = `/movie/genres`;
+  const response = await axiosInstance.get<Genre>(url);
   return response.data;
 };
