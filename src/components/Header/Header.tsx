@@ -6,22 +6,22 @@ import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { selectUser } from '../../store/authSlice';
 import ModalAuth from '../ModalAuth/ModalAuth';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { closeModal, openModal } from '../../store/modalSlice';
 
 Modal.setAppElement('#root');
 
 export const Header: FC = () => {
-  const [loginModal, setLoginModal] = useState(false);
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
-  const openLoginModal = () => setLoginModal(true);
-  const closeLoginModal = () => setLoginModal(false);
+  const isModalOpen = useAppSelector(state => state.modal.isOpen);
+  const dispatch = useAppDispatch();
 
   const handleProfileCheck = () => {
     if (user) {
       navigate('/profile');
     } else {
-      openLoginModal();
+      dispatch(openModal());
     }
   };
 
@@ -42,8 +42,8 @@ export const Header: FC = () => {
           {user && user.name ? user.name : 'Войти'}
         </button>
         <Modal
-          isOpen={loginModal}
-          onRequestClose={closeLoginModal}
+          isOpen={isModalOpen}
+          onRequestClose={() => dispatch(closeModal())}
           shouldCloseOnOverlayClick={true}
           className="header__modal"
           overlayClassName="header__overlay"

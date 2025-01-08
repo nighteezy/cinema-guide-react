@@ -3,6 +3,7 @@ import movieReducer from './movieSlice';
 import searchReducer from './searchSlive';
 import genreReducer from './genreSlice';
 import authReducer from './authSlice';
+import modalReducer from './modalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     search: searchReducer,
     genre: genreReducer,
     auth: authReducer,
+    modal: modalReducer,
   },
 });
 

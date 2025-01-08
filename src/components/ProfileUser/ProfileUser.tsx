@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import './ProfileUser.css';
 import Favorites from '../Favorites/Favorites';
-import AccountSetting from '../AccountSettings/AccountSetting';
+import AccountSetting from '../Settings/Settings';
 
 const ProfileUser: FC = () => {
   const [activeTab, setAcriveTab] = useState<'favorites' | 'settings'>(
@@ -16,11 +16,14 @@ const ProfileUser: FC = () => {
       <h3 className="profile__title title-secondary">Мой аккаунт</h3>
 
       <div className="profile__tabs">
-        <button onClick={() => handleTabChange('favorites')}>
+        <button
+          className="btn-reset profile__tabs-btn"
+          onClick={() => handleTabChange('favorites')}
+        >
           <svg
-            width="20"
-            height="19"
-            viewBox="0 0 20 19"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -31,11 +34,14 @@ const ProfileUser: FC = () => {
           </svg>
           Избранные фильмы
         </button>
-        <button onClick={() => handleTabChange('settings')}>
+        <button
+          className="btn-reset profile__tabs-btn"
+          onClick={() => handleTabChange('settings')}
+        >
           <svg
-            width="16"
-            height="21"
-            viewBox="0 0 16 21"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >

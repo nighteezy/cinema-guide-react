@@ -1,9 +1,17 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import React from 'react';
-import { Film } from '../../interfaces';
+import { Film, Movies } from '../../interfaces';
 import './Movie.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MovieInfo from '../MovieInfo/MovieInfo';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectUser } from '../../store/authSlice';
+import {
+  addFavorites,
+  deleteFavorites,
+  getFavorites,
+} from '../../api/FavoritesApi';
+import { openModal } from '../../store/modalSlice';
 
 type TProps = {
   data: Film;
@@ -11,12 +19,42 @@ type TProps = {
 };
 
 export const Movie: FC<TProps> = ({ data }) => {
-  const { movieId } = useParams();
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
   if (!data) {
     return <p>Данные о фильме не загружены.</p>;
   }
   const primaryGenre =
     data.genres && data.genres.length > 0 ? data.genres[0] : 'Не указано';
+
+  const [movieList, setMovieList] = useState<string[]>([]);
+  const getFavorit = async (): Promise<void> => {
+    const favorit = await getFavorites();
+    setMovieList(favorit.map(movie => movie.id.toString()));
+  };
+
+  useEffect(() => {
+    getFavorit();
+  }, []);
+
+  const handleFavorites = async () => {
+    if (!user) {
+      dispatch(openModal());
+      return;
+    }
+    const isFavorite = movieList.includes(data.id.toString());
+    try {
+      if (isFavorite) {
+        await deleteFavorites(data.id.toString());
+        setMovieList(movieList.filter(id => id !== data.id.toString()));
+      } else {
+        await addFavorites(data.id);
+        setMovieList([...movieList, data.id.toString()]);
+      }
+    } catch (error) {
+      console.error('Ошибка при добавлении/удалении из избранных:', error);
+    }
+  };
 
   return (
     <div className="movie">
@@ -35,7 +73,6 @@ export const Movie: FC<TProps> = ({ data }) => {
           genre={primaryGenre}
           runtime={data.runtime}
         />
-
         <h1 className="movie__title title">{data.title}</h1>
         <p className="movie__descr">{data.plot}</p>
 
@@ -49,7 +86,7 @@ export const Movie: FC<TProps> = ({ data }) => {
             </Link>
           </li>
           <li className="movie__btns-item">
-            <button className="movie__btns-favorite">
+            <button className="movie__btns-favorite" onClick={handleFavorites}>
               <svg
                 width="24"
                 height="24"

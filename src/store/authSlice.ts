@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoginUser, profileUser } from '../api/AuthApi';
 import { Login, Profile } from '../interfaces';
 import { RootState } from './store';
@@ -30,7 +30,7 @@ export const fetchAuth = createAsyncThunk<Login, AuthCredentials>(
   }
 );
 
-export const fetchUserProfile = createAsyncThunk(
+export const fetchUserProfile = createAsyncThunk<Profile>(
   'auth/fetchUserProfile',
   async () => {
     const response = await profileUser();
@@ -45,8 +45,9 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       localStorage.removeItem('user');
+      state.result = false;
     },
-    setUser(state, action) {
+    setUser(state, action: PayloadAction<Profile>) {
       state.user = action.payload;
       localStorage.setItem('user', JSON.stringify(action.payload));
     },

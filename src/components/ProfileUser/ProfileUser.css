@@ -5,3 +5,21 @@
 .profile__title {
   margin-bottom: 64px;
 }
+
+.profile__tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 64px;
+  margin-bottom: 64px;
+}
+
+.profile__tabs-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-white);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 133%;
+}

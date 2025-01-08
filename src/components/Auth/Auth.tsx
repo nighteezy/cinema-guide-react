@@ -1,6 +1,7 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { fetchAuth, fetchUserProfile } from '../../store/authSlice';
+import { closeModal } from '../../store/modalSlice';
 
 const Auth: FC = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ const Auth: FC = () => {
       ).unwrap();
       if (userResponse) {
         const user = await dispatch(fetchUserProfile());
+        dispatch(closeModal());
       }
     } catch (error) {
       console.error('Ошибка:', error);

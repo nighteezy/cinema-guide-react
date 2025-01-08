@@ -10,7 +10,7 @@ export const LoginUser = async (
   return response.data;
 };
 
-export const LogOutUser = async (): Promise<void> => {
+export const LogOutUser = async (): Promise<Login> => {
   const url = `/auth/logout`;
   const response = await axiosInstance.get(url);
   return response.data;
