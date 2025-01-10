@@ -8,7 +8,6 @@ type TProps = {
 };
 
 const AboutMovie: FC<TProps> = ({ data }) => {
-  console.log(data);
   return (
     <div className="about-movie">
       <h2 className="about-movie__title">О фильме</h2>

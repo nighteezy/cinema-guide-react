@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import React from 'react';
-import { Film, Movies } from '../../interfaces';
+import { Film } from '../../interfaces';
 import './Movie.css';
 import { Link } from 'react-router-dom';
 import MovieInfo from '../MovieInfo/MovieInfo';
@@ -12,15 +12,17 @@ import {
   getFavorites,
 } from '../../api/FavoritesApi';
 import { openModal } from '../../store/modalSlice';
+import { getRandomMovie } from '../../api/MovieApi';
 
 type TProps = {
   data: Film;
   getData?: () => Promise<void>;
 };
 
-export const Movie: FC<TProps> = ({ data }) => {
+export const Movie: FC<TProps> = ({ data, getData }) => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
+  const [movieData, setMovieData] = useState<Film>(data);
   if (!data) {
     return <p>Данные о фильме не загружены.</p>;
   }
@@ -56,6 +58,20 @@ export const Movie: FC<TProps> = ({ data }) => {
     }
   };
 
+  const handleUpdateMovie = async () => {
+    try {
+      if (getData) {
+        await getData();
+        setMovieData(data);
+      } else {
+        const newMovieData = await getRandomMovie();
+        setMovieData(newMovieData);
+      }
+    } catch (error) {
+      console.error('Ошибка при обновлении фильма:', error);
+    }
+  };
+
   return (
     <div className="movie">
       <div className="movie__wrapper">
@@ -80,11 +96,13 @@ export const Movie: FC<TProps> = ({ data }) => {
           <li className="movie__btns-item">
             <button className="movie__btns-trailer">Трейлер</button>
           </li>
-          <li className="movie__btns-item">
-            <Link to={`/movie/${data.id}`} key={data.id}>
-              <button className="movie__btns-about">О фильме</button>
-            </Link>
-          </li>
+          {getData && (
+            <li className="movie__btns-item">
+              <Link to={`/movie/${data.id}`} key={data.id}>
+                <button className="movie__btns-about">О фильме</button>
+              </Link>
+            </li>
+          )}
           <li className="movie__btns-item">
             <button className="movie__btns-favorite" onClick={handleFavorites}>
               <svg
@@ -101,22 +119,27 @@ export const Movie: FC<TProps> = ({ data }) => {
               </svg>
             </button>
           </li>
-          <li className="movie__btns-item">
-            <button className="movie__btns-update">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          {getData && (
+            <li className="movie__btns-item">
+              <button
+                className="movie__btns-update"
+                onClick={handleUpdateMovie}
               >
-                <path
-                  d="M12 4C14.7486 4 17.1749 5.38626 18.6156 7.5H16V9.5H22V3.5H20V5.99936C18.1762 3.57166 15.2724 2 12 2C6.47715 2 2 6.47715 2 12H4C4 7.58172 7.58172 4 12 4ZM20 12C20 16.4183 16.4183 20 12 20C9.25144 20 6.82508 18.6137 5.38443 16.5H8V14.5H2V20.5H4V18.0006C5.82381 20.4283 8.72764 22 12 22C17.5228 22 22 17.5228 22 12H20Z"
-                  fill="white"
-                />
-              </svg>
-            </button>
-          </li>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 4C14.7486 4 17.1749 5.38626 18.6156 7.5H16V9.5H22V3.5H20V5.99936C18.1762 3.57166 15.2724 2 12 2C6.47715 2 2 6.47715 2 12H4C4 7.58172 7.58172 4 12 4ZM20 12C20 16.4183 16.4183 20 12 20C9.25144 20 6.82508 18.6137 5.38443 16.5H8V14.5H2V20.5H4V18.0006C5.82381 20.4283 8.72764 22 12 22C17.5228 22 22 17.5228 22 12H20Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </div>
