@@ -11,8 +11,10 @@ import {
   deleteFavorites,
   getFavorites,
 } from '../../api/FavoritesApi';
-import { openModal } from '../../store/modalSlice';
+import { closeModal, openModal, selectModal } from '../../store/modalSlice';
 import { getRandomMovie } from '../../api/MovieApi';
+import Modal from 'react-modal';
+import ReactPlayer from 'react-player';
 
 type TProps = {
   data: Film;
@@ -21,8 +23,10 @@ type TProps = {
 
 export const Movie: FC<TProps> = ({ data, getData }) => {
   const user = useAppSelector(selectUser);
+  const { isOpen, activeModal } = useAppSelector(selectModal);
   const dispatch = useAppDispatch();
   const [movieData, setMovieData] = useState<Film>(data);
+  console.log(data.trailerUrl);
   if (!data) {
     return <p>Данные о фильме не загружены.</p>;
   }
@@ -41,7 +45,7 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
 
   const handleFavorites = async () => {
     if (!user) {
-      dispatch(openModal());
+      dispatch(openModal('trailer'));
       return;
     }
     const isFavorite = movieList.includes(data.id.toString());
@@ -56,6 +60,10 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
     } catch (error) {
       console.error('Ошибка при добавлении/удалении из избранных:', error);
     }
+  };
+
+  const handleTrailer = async () => {
+    dispatch(openModal('trailer'));
   };
 
   const handleUpdateMovie = async () => {
@@ -93,7 +101,7 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
         <p className="movie__descr">{data.plot}</p>
 
         <ul className="movie__btns list-reset">
-          <li className="movie__btns-item">
+          <li className="movie__btns-item" onClick={handleTrailer}>
             <button className="movie__btns-trailer">Трейлер</button>
           </li>
           {getData && (
@@ -142,6 +150,15 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
           )}
         </ul>
       </div>
+
+      <Modal
+        isOpen={isOpen && activeModal === 'trailer'}
+        shouldCloseOnOverlayClick={true}
+        onRequestClose={() => dispatch(closeModal())}
+        className="movie__player"
+      >
+        <ReactPlayer url={data.trailerUrl} />
+      </Modal>
     </div>
   );
 };
