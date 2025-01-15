@@ -33,8 +33,12 @@ export const Header: FC = () => {
         </Link>
 
         <nav className="nav">
-          <NavLink to={'/'}>Главная</NavLink>
-          <NavLink to={'/genres'}>Жанры</NavLink>
+          <NavLink className="nav__link" to={'/'}>
+            Главная
+          </NavLink>
+          <NavLink className="nav__link" to={'/genres'}>
+            Жанры
+          </NavLink>
         </nav>
 
         <Search />

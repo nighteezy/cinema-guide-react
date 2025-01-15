@@ -1,22 +1,30 @@
 .favorites__list {
+  max-height: 500px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 64px 40px;
-  max-height: 500px;
-  overflow-y: auto;
+  overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  gap: 64px 40px;
 }
 
 .favorites__list::-webkit-scrollbar {
   display: none;
 }
 
+.favorites__item:hover {
+  outline: 1px solid var(--color-white);
+  outline-offset: -1px;
+  border-radius: 16px;
+}
+
 .favorites__item {
   max-width: 224px;
   max-height: 336px;
   border-radius: 16px;
+  position: relative;
+  box-shadow: 0 0 80px 0 rgba(255, 255, 255, 0.33);
 }
 
 .favorites__item-img {
@@ -24,4 +32,17 @@
   height: 100%;
   object-fit: cover;
   border-radius: 16px;
+}
+
+.favorites__btn-delete {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  border: 1px solid var(--color-white);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  max-width: 40px;
+  max-height: 40px;
+  width: 100%;
+  height: 100%;
 }

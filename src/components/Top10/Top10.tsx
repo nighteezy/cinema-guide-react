@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import './Top10.css';
 import { useAppDispatch } from '../../store/hooks';
 import { setMovie } from '../../store/movieSlice';
+import Loading from '../Loader/Loader';
 
 export const Top10: FC = () => {
   const [data, setData] = useState<Movies>([]);
@@ -30,7 +31,6 @@ export const Top10: FC = () => {
     <div>
       <div className="top10">
         <h2 className="top10__title">Топ 10 фильмов</h2>
-
         <ul className="top10__list list-reset">
           {data.map((movie, index) => (
             <div className="top10__item" key={movie.id}>
@@ -41,11 +41,15 @@ export const Top10: FC = () => {
                 key={data[index].id}
               >
                 <span className="top10__place">{index + 1}</span>
-                <img
-                  src={movie.posterUrl}
-                  className="top10__img"
-                  alt={`Постер фильма ${movie.title}`}
-                />
+                {movie.posterUrl ? (
+                  <img
+                    src={movie.posterUrl}
+                    className="top10__img"
+                    alt={`Постер фильма ${movie.title}`}
+                  />
+                ) : (
+                  <span className="top10__alt">{movie.title}</span>
+                )}
               </Link>
             </div>
           ))}

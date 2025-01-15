@@ -25,6 +25,10 @@
   color: var(--color-white);
 }
 
+.active {
+  border-bottom: 2px solid var(--color-active);
+}
+
 .header__btn {
   background-color: inherit;
   border: none;

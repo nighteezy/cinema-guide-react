@@ -22,6 +22,7 @@
   --color-purple: #6a5dc2;
   --color-dark-grey: #393b3c;
   --content-disabled: rgba(255, 255, 255, 0.5);
+  --color-active: #dc5dfc;
 }
 html {
   box-sizing: border-box;
