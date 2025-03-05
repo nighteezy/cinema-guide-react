@@ -3,14 +3,17 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout, selectUser } from '../../store/authSlice';
 import React from 'react';
 import './Settings.css';
+import { useNavigate } from 'react-router-dom';
 
 const Settings: FC = () => {
+  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   if (!user) return <p>Ничего нет</p>;
 
   const handleLogOut = () => {
     dispatch(logout());
+    navigate(`/`);
   };
   return (
     <div className="settings">
@@ -60,6 +63,3 @@ const Settings: FC = () => {
 };
 
 export default Settings;
-function dispatch(arg0: import('../../interfaces').Profile | null) {
-  throw new Error('Function not implemented.');
-}

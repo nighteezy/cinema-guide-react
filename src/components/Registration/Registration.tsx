@@ -5,7 +5,7 @@ import { registrationUser } from '../../api/AuthApi';
 
 const registrationSchema = z
   .object({
-    email: z.string().email('Некорhектный email'),
+    email: z.string().email('Некоректный email'),
     name: z.string().min(1, 'Имя обязательно'),
     surname: z.string().min(1, 'Фамилия обязательна'),
     password: z.string().min(6, 'Пароль должен содержать минимум 6 символов'),
