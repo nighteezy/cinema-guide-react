@@ -15,6 +15,7 @@ import { closeModal, openModal, selectModal } from '../../store/modalSlice';
 import { getRandomMovie } from '../../api/MovieApi';
 import Modal from 'react-modal';
 import ReactPlayer from 'react-player';
+import ButtonClose from '../ButtonClose/ButtonClose';
 
 type TProps = {
   data: Film;
@@ -26,14 +27,17 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
   const { isOpen, activeModal } = useAppSelector(selectModal);
   const dispatch = useAppDispatch();
   const [movieData, setMovieData] = useState<Film>(data);
-  console.log(data.trailerUrl);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [movieList, setMovieList] = useState<string[]>([]);
+  const [titleVisible, setTitleVisible] = useState(false);
+  const [btnCloseVisible, setBtnCloseVisible] = useState(false);
+
   if (!data) {
     return <p>Данные о фильме не загружены.</p>;
   }
   const primaryGenre =
     data.genres && data.genres.length > 0 ? data.genres[0] : 'Не указано';
 
-  const [movieList, setMovieList] = useState<string[]>([]);
   const getFavorit = async (): Promise<void> => {
     const favorit = await getFavorites();
     setMovieList(favorit.map(movie => movie.id.toString()));
@@ -62,8 +66,20 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
     }
   };
 
+  const handlePlay = () => {
+    setIsPlaying(true);
+    setTitleVisible(false);
+  };
+
+  const handlePause = () => {
+    setIsPlaying(false);
+    setTitleVisible(true);
+  };
+
   const handleTrailer = async () => {
     dispatch(openModal('trailer'));
+    setIsPlaying(true);
+    setBtnCloseVisible(true);
   };
 
   const handleUpdateMovie = async () => {
@@ -78,6 +94,20 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
     } catch (error) {
       console.error('Ошибка при обновлении фильма:', error);
     }
+  };
+
+  const handleCloseModal = () => {
+    dispatch(closeModal());
+    setIsPlaying(false);
+    setTitleVisible(false);
+    setBtnCloseVisible(false);
+  };
+
+  const customStyles = {
+    overlay: {
+      backgroundColor: 'rgba(var(--color-black-rgb), 0.75)',
+      zIndex: 1000,
+    },
   };
 
   return (
@@ -153,11 +183,27 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
 
       <Modal
         isOpen={isOpen && activeModal === 'trailer'}
-        shouldCloseOnOverlayClick={true}
-        onRequestClose={() => dispatch(closeModal())}
         className="movie__player"
+        style={customStyles}
       >
-        <ReactPlayer url={data.trailerUrl} />
+        <ReactPlayer
+          width="100%"
+          height="100%"
+          url={data.trailerUrl}
+          playing={isPlaying}
+          onPlay={handlePlay}
+          onPause={handlePause}
+        />
+
+        {titleVisible && (
+          <div className="movie__player-container">
+            <h2 className="container__text">{data.title}</h2>
+          </div>
+        )}
+
+        {btnCloseVisible && (
+          <ButtonClose onClick={handleCloseModal} className="btn-close" />
+        )}
       </Modal>
     </div>
   );

@@ -33,25 +33,23 @@ export const Top10: FC = () => {
         <h2 className="top10__title">Топ 10 фильмов</h2>
         <ul className="top10__list list-reset">
           {data.map((movie, index) => (
-            <div className="top10__item" key={movie.id}>
-              <Link
-                className="top10__link"
-                to={`/movie/${data[index].id}`}
-                onClick={() => handleMovieClick(movie)}
-                key={data[index].id}
-              >
-                <span className="top10__place">{index + 1}</span>
-                {movie.posterUrl ? (
-                  <img
-                    src={movie.posterUrl}
-                    className="top10__img"
-                    alt={`Постер фильма ${movie.title}`}
-                  />
-                ) : (
-                  <span className="top10__alt">{movie.title}</span>
-                )}
-              </Link>
-            </div>
+            <Link
+              className="top10__item"
+              to={`/movie/${data[index].id}`}
+              onClick={() => handleMovieClick(movie)}
+              key={data[index].id}
+            >
+              <span className="top10__place">{index + 1}</span>
+              {movie.posterUrl ? (
+                <img
+                  src={movie.posterUrl}
+                  className="top10__img"
+                  alt={`Постер фильма ${movie.title}`}
+                />
+              ) : (
+                <span className="top10__alt">{movie.title}</span>
+              )}
+            </Link>
           ))}
         </ul>
       </div>

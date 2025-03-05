@@ -1,11 +1,15 @@
-.favorites__list {
+.favorites {
   max-height: 500px;
+  scrollbar-width: none;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+
+.favorites__list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  overflow: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  overflow: visible;
   gap: 64px 40px;
 }
 

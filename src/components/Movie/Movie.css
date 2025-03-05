@@ -9,13 +9,38 @@
   top: 0;
   right: 0;
   z-index: -100;
-  width: 900px;
-  height: 680px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 680px;
+  height: 100%;
 }
 
 .movie__player {
-  padding: 64px 40px;
-  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 960px;
+  height: 560px;
+}
+
+.movie__player-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 11, 11, 0.5);
+  text-align: left;
+  padding: 24px 40px;
+  margin: 24px 20px;
+  color: var(--color-white);
+  font-size: 24px;
+  line-height: 133%;
+  font-weight: 700;
+}
+
+.container__text {
+  margin: 0;
 }
 
 .movie__btns-item--unvisible {

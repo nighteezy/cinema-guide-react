@@ -8,6 +8,7 @@ import { selectUser } from '../../store/authSlice';
 import ModalAuth from '../ModalAuth/ModalAuth';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { closeModal, openModal, selectModal } from '../../store/modalSlice';
+import ButtonClose from '../ButtonClose/ButtonClose';
 
 Modal.setAppElement('#root');
 
@@ -42,17 +43,19 @@ export const Header: FC = () => {
         </nav>
 
         <Search />
-        <button className="header__btn btn-reset" onClick={handleProfileCheck}>
+        <a className="header__btn btn-reset" onClick={handleProfileCheck}>
           {user && user.name ? user.name : 'Войти'}
-        </button>
+        </a>
         <Modal
           isOpen={isOpen && activeModal === 'auth'}
-          onRequestClose={() => dispatch(closeModal())}
-          shouldCloseOnOverlayClick={true}
           className="header__modal"
           overlayClassName="header__overlay"
         >
           <ModalAuth />
+          <ButtonClose
+            onClick={() => dispatch(closeModal())}
+            className="btn-close"
+          />
         </Modal>
       </div>
     </header>
