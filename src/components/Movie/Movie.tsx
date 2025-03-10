@@ -44,8 +44,10 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
   };
 
   useEffect(() => {
-    getFavorit();
-  }, []);
+    if (user) {
+      getFavorit();
+    }
+  }, [user]);
 
   const handleFavorites = async () => {
     if (!user) {

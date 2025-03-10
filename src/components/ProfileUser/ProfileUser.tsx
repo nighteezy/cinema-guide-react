@@ -4,12 +4,12 @@ import Favorites from '../Favorites/Favorites';
 import AccountSetting from '../Settings/Settings';
 
 const ProfileUser: FC = () => {
-  const [activeTab, setAcriveTab] = useState<'favorites' | 'settings'>(
+  const [activeTab, setActiveTab] = useState<'favorites' | 'settings'>(
     'favorites'
   );
 
   const handleTabChange = (tab: 'favorites' | 'settings') => {
-    setAcriveTab(tab);
+    setActiveTab(tab);
   };
   return (
     <div className="profile">
@@ -17,7 +17,9 @@ const ProfileUser: FC = () => {
 
       <div className="profile__tabs">
         <button
-          className="btn-reset profile__tabs-btn"
+          className={`btn-reset profile__tabs-btn ${
+            activeTab === 'favorites' ? 'active' : ''
+          }`}
           onClick={() => handleTabChange('favorites')}
         >
           <svg
@@ -35,7 +37,9 @@ const ProfileUser: FC = () => {
           Избранные фильмы
         </button>
         <button
-          className="btn-reset profile__tabs-btn"
+          className={`btn-reset profile__tabs-btn ${
+            activeTab === 'settings' ? 'active' : ''
+          }`}
           onClick={() => handleTabChange('settings')}
         >
           <svg
