@@ -39,14 +39,17 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
   const primaryGenre =
     data.genres && data.genres.length > 0 ? data.genres[0] : 'Не указано';
 
-  const getFavorit = async (): Promise<void> => {
-    const favorit = await getFavorites();
-    setMovieList(favorit.map(movie => movie.id.toString()));
-  };
-
   useEffect(() => {
     if (user) {
-      getFavorit();
+      const loadFavorites = async () => {
+        try {
+          const favorit = await getFavorites();
+          setMovieList(favorit.map(movie => movie.id.toString()));
+        } catch (error) {
+          console.error('Ошибка при загрузке избранного:', error);
+        }
+      };
+      loadFavorites();
     } else {
       setMovieList([]);
     }
@@ -60,7 +63,7 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
     const isFavorite = movieList.includes(data.id.toString());
     try {
       if (isFavorite) {
-        await deleteFavorites(data.id.toString());
+        await deleteFavorites(data.id);
         setMovieList(movieList.filter(id => id !== data.id.toString()));
       } else {
         await addFavorites(data.id);

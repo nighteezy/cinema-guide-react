@@ -14,7 +14,7 @@ export const addFavorites = async (id: number): Promise<Favorites> => {
   return response.data;
 };
 
-export const deleteFavorites = async (id: string): Promise<Favorites> => {
+export const deleteFavorites = async (id: number): Promise<Favorites> => {
   const url = `/favorites/${id}`;
   const response = await axiosInstance.delete(url);
   return response.data;

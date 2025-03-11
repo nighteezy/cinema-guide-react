@@ -11,6 +11,9 @@ const Settings: FC = () => {
   const dispatch = useAppDispatch();
   if (!user) return <p>Ничего нет</p>;
 
+  const firstNameInitial = user.name?.[0]?.toUpperCase() || 'N';
+  const lastNameInitial = user.surname?.[0]?.toUpperCase() || 'N';
+
   const handleLogOut = () => {
     dispatch(logout());
     navigate(`/`);
@@ -20,16 +23,17 @@ const Settings: FC = () => {
       <div className="settings__container">
         <div className="settings__wrapper">
           <div className="settings__icon">
-            {`${user.name[0].toUpperCase() + user.surname[0].toUpperCase()}`}
+            {firstNameInitial + lastNameInitial}
           </div>
           <div className="settings__text">
             <span className="settings__label">Имя Фамилия</span>
             <span>
-              {`${user.name[0].toUpperCase() + user.name.slice(1)} 
-                                ${
-                                  user.surname[0].toUpperCase() +
-                                  user.surname.slice(1)
-                                }`}
+              {user.name
+                ? user.name[0].toUpperCase() + user.name.slice(1)
+                : 'Имя не указано'}{' '}
+              {user.surname
+                ? user.surname[0].toUpperCase() + user.surname.slice(1)
+                : 'Фамилия не указана'}
             </span>
           </div>
         </div>
