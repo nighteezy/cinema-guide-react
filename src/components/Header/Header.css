@@ -30,8 +30,6 @@
 }
 
 .header__btn {
-  background-color: inherit;
-  border: none;
   font-size: 24px;
   color: var(--color-white);
 }

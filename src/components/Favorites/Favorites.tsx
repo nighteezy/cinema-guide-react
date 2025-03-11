@@ -38,7 +38,7 @@ const Favorites: FC = () => {
             onMouseEnter={() => setHoveredMovieId(film.id)}
             onMouseLeave={() => setHoveredMovieId(null)}
           >
-            <Link to={'#'}>
+            <Link to={`/movie/${film.id}`}>
               <img
                 src={film.posterUrl}
                 alt={`Постер фильма ${film.title}`}

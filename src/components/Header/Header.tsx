@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FC } from 'react';
 import { Search } from '../Search/Search';
 import './Header.css';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Modal from 'react-modal';
 import { selectUser } from '../../store/authSlice';
 import ModalAuth from '../ModalAuth/ModalAuth';
@@ -14,16 +14,13 @@ Modal.setAppElement('#root');
 
 export const Header: FC = () => {
   const user = useAppSelector(selectUser);
-  const navigate = useNavigate();
   const { isOpen, activeModal } = useAppSelector(selectModal);
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  const isProfilePage = location.pathname === '/profile';
 
   const handleProfileClick = (event: React.MouseEvent) => {
     if (!user) {
-      event.preventDefault(); // Отменяем переход
-      dispatch(openModal('auth')); // Открываем модалку
+      event.preventDefault();
+      dispatch(openModal('auth'));
     }
   };
 
@@ -45,13 +42,11 @@ export const Header: FC = () => {
 
         <Search />
         <NavLink
-          to="/profile" // Для авторизованных: переход на /profile
+          to="/profile"
           className={({ isActive }) =>
-            `header__btn btn-reset ${isProfilePage ? 'active' : ''} ${
-              isActive ? 'active' : ''
-            }`
+            `header__btn btn-reset  ${isActive ? 'active' : ''}`
           }
-          onClick={handleProfileClick} // Обработчик для неавторизованных
+          onClick={handleProfileClick}
         >
           {user?.name || 'Войти'}
         </NavLink>
