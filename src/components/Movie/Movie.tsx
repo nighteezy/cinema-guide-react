@@ -57,7 +57,7 @@ export const Movie: FC<TProps> = ({ data, getData }) => {
 
   const handleFavorites = async () => {
     if (!user) {
-      dispatch(openModal('trailer'));
+      dispatch(openModal('auth'));
       return;
     }
     const isFavorite = movieList.includes(data.id.toString());

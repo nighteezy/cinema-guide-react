@@ -2,6 +2,8 @@ import React, { FormEvent, useState } from 'react';
 import { FC } from 'react';
 import z from 'zod';
 import { registrationUser } from '../../api/AuthApi';
+import EmailIcon from '../icons/EmailIcon/EmailIcon';
+import PasswordIcon from '../icons/PasswordIcon/PasswordIcon';
 
 const registrationSchema = z
   .object({
@@ -55,6 +57,7 @@ const Registration: FC = () => {
           <h3 className="title form__title">Регистрация</h3>
           <ul className="list-reset form__list">
             <li className="form__item">
+              <EmailIcon />
               <input
                 className="form__input"
                 type="text"
@@ -82,6 +85,7 @@ const Registration: FC = () => {
               />
             </li>
             <li className="form__item">
+              <PasswordIcon />
               <input
                 className="form__input"
                 type="password"
@@ -91,6 +95,7 @@ const Registration: FC = () => {
               />
             </li>
             <li className="form__item">
+              <PasswordIcon />
               <input
                 className="form__input"
                 type="password"
