@@ -15,3 +15,11 @@ export interface Registration {
 export interface Login {
   result: boolean;
 }
+
+export interface FormData {
+  email: string;
+  name: string;
+  surname: string;
+  password: string;
+  confirmPassword: string;
+}

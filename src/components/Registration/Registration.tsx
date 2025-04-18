@@ -1,9 +1,10 @@
-import React, { FormEvent, useState } from 'react';
-import { FC } from 'react';
+import React, { FormEvent, useState, FC } from 'react';
 import z from 'zod';
 import { registrationUser } from '../../api/AuthApi';
 import EmailIcon from '../icons/EmailIcon/EmailIcon';
 import PasswordIcon from '../icons/PasswordIcon/PasswordIcon';
+import { FormData } from '../../interfaces';
+import NameIcon from '../icons/NameIcon/NameIcon';
 
 const registrationSchema = z
   .object({
@@ -19,29 +20,42 @@ const registrationSchema = z
   });
 
 const Registration: FC = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    name: '',
+    surname: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [error, setError] = useState<Record<string, string>>({});
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = { email, name, surname, password, confirmPassword };
     try {
       registrationSchema.parse(formData);
-      setError('');
-      setSuccess('');
-      await registrationUser(email, name, surname, password);
+      setError({});
+      await registrationUser(
+        formData.email,
+        formData.name,
+        formData.surname,
+        formData.password
+      );
       setIsRegistered(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setError(error.errors.map(e => e.message).join(', '));
+        const formattedErrors = error.errors.reduce((acc, err) => {
+          acc[err.path.join('.')] = err.message;
+          return acc;
+        }, {} as Record<string, string>);
+        setError(formattedErrors);
       } else {
-        setError('Ошибка при регистрации. Попробуйте еще раз.');
+        setError({ general: 'Ошибка при регистрации. Попробуйте еще раз.' });
       }
     }
   };
@@ -55,6 +69,7 @@ const Registration: FC = () => {
       ) : (
         <form className="form" onSubmit={handleSubmit}>
           <h3 className="title form__title">Регистрация</h3>
+          {error.general && <p className="form__error">{error.general}</p>}
           <ul className="list-reset form__list">
             <li className="form__item">
               <EmailIcon />
@@ -62,25 +77,30 @@ const Registration: FC = () => {
                 className="form__input"
                 type="text"
                 placeholder="Электронная почта"
-                onChange={e => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 required
               />
             </li>
             <li className="form__item">
+              <NameIcon />
               <input
                 className="form__input"
                 type="text"
                 placeholder="Имя"
-                onChange={e => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
                 required
               />
             </li>
             <li className="form__item">
+              <NameIcon />
               <input
                 className="form__input"
                 type="text"
                 placeholder="Фамилия"
-                onChange={e => setSurname(e.target.value)}
+                value={formData.surname}
+                onChange={handleChange}
                 required
               />
             </li>
@@ -90,7 +110,8 @@ const Registration: FC = () => {
                 className="form__input"
                 type="password"
                 placeholder="Пароль"
-                onChange={e => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
             </li>
@@ -100,7 +121,8 @@ const Registration: FC = () => {
                 className="form__input"
                 type="password"
                 placeholder="Подтвердить пароль"
-                onChange={e => setConfirmPassword(e.target.value)}
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 required
               />
             </li>
