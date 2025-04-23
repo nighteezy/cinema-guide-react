@@ -1,0 +1,8 @@
+.empty-state {
+  width: 100%;
+}
+
+.empty-state__content {
+  text-align: center;
+  cursor: default;
+}

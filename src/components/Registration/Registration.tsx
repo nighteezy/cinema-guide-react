@@ -1,10 +1,10 @@
 import React, { FormEvent, useState, FC } from 'react';
 import z from 'zod';
 import { registrationUser } from '../../api/AuthApi';
-import EmailIcon from '../icons/EmailIcon/EmailIcon';
-import PasswordIcon from '../icons/PasswordIcon/PasswordIcon';
+import EmailIcon from '../icons/EmailIcon';
+import PasswordIcon from '../icons/PasswordIcon';
 import { FormData } from '../../interfaces';
-import NameIcon from '../icons/NameIcon/NameIcon';
+import NameIcon from '../icons/NameIcon';
 
 const registrationSchema = z
   .object({

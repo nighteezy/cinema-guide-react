@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
-import { fetchAuth, fetchUserProfile, setUser } from '../../store/authSlice';
+import { fetchAuth } from '../../store/authSlice';
 import { closeModal } from '../../store/modalSlice';
-import EmailIcon from '../icons/EmailIcon/EmailIcon';
-import PasswordIcon from '../icons/PasswordIcon/PasswordIcon';
+import EmailIcon from '../icons/EmailIcon';
+import PasswordIcon from '../icons/PasswordIcon';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const dispatch = useAppDispatch();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -18,7 +17,6 @@ const Auth = () => {
         fetchAuth({ email, password })
       ).unwrap();
       if (userResponse) {
-        const user = await dispatch(fetchUserProfile());
         dispatch(closeModal());
       }
     } catch (error) {

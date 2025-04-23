@@ -78,22 +78,3 @@
   line-height: 24px;
   color: var(--color-white);
 }
-
-.loader {
-  border: 8px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  border-top: 8px solid white; /* Цвет спиннера */
-  width: 40px; /* Размер спиннера */
-  height: 40px; /* Размер спиннера */
-  animation: spin 1s linear infinite; /* Анимация */
-  margin: auto; /* Центрирование */
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
