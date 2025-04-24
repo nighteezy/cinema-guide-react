@@ -12,7 +12,7 @@ export const RandomMovie: FC = React.memo(() => {
   const dispatch = useAppDispatch();
   const [movie, setMovieData] = useState<Film | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null); // Изменили тип на Error | null
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchRandomMovie = useCallback(async () => {
     try {
@@ -64,7 +64,7 @@ export const RandomMovie: FC = React.memo(() => {
     if (!movie) return null;
     return (
       <section className="random-movie" aria-label="Случайный фильм">
-        <Movie data={movie} />
+        <Movie data={movie} getData={fetchRandomMovie} />
       </section>
     );
   }, [movie, fetchRandomMovie]);

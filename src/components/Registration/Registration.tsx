@@ -59,6 +59,7 @@ const Registration: FC = () => {
       }
     }
   };
+
   return (
     <div>
       {isRegistered ? (
@@ -75,56 +76,70 @@ const Registration: FC = () => {
               <EmailIcon />
               <input
                 className="form__input"
-                type="text"
+                type="email"
+                name="email"
                 placeholder="Электронная почта"
                 value={formData.email}
                 onChange={handleChange}
                 required
               />
+              {error.email && <p className="form__error">{error.email}</p>}
             </li>
             <li className="form__item">
               <NameIcon />
               <input
                 className="form__input"
                 type="text"
+                name="name"
                 placeholder="Имя"
                 value={formData.name}
                 onChange={handleChange}
                 required
               />
+              {error.name && <p className="form__error">{error.name}</p>}
             </li>
             <li className="form__item">
               <NameIcon />
               <input
                 className="form__input"
                 type="text"
+                name="surname"
                 placeholder="Фамилия"
                 value={formData.surname}
                 onChange={handleChange}
                 required
               />
+              {error.surname && <p className="form__error">{error.surname}</p>}
             </li>
             <li className="form__item">
               <PasswordIcon />
               <input
                 className="form__input"
                 type="password"
+                name="password"
                 placeholder="Пароль"
                 value={formData.password}
                 onChange={handleChange}
                 required
               />
+              {error.password && (
+                <p className="form__error">{error.password}</p>
+              )}
             </li>
             <li className="form__item">
               <PasswordIcon />
               <input
                 className="form__input"
                 type="password"
+                name="confirmPassword"
                 placeholder="Подтвердить пароль"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
               />
+              {error.confirmPassword && (
+                <p className="form__error">{error.confirmPassword}</p>
+              )}
             </li>
           </ul>
           <button type="submit" className="btn-reset modal__btn--login">

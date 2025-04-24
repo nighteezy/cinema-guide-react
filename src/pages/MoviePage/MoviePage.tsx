@@ -9,7 +9,7 @@ import {
   resetMovie,
 } from '../../store/movieSlice';
 
-import Movie from '../../components/Movie/Movie';
+import { Movie } from '../../components/Movie/Movie';
 import AboutMovie from '../../components/AboutMovie/AboutMovie';
 
 const MoviePage: FC = () => {
