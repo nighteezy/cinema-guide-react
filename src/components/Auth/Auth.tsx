@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
-import { fetchAuth } from '../../store/authSlice';
+import { fetchAuth, fetchUserProfile } from '../../store/authSlice';
 import { closeModal } from '../../store/modalSlice';
 import EmailIcon from '../icons/EmailIcon';
 import PasswordIcon from '../icons/PasswordIcon';
@@ -17,6 +17,7 @@ const Auth = () => {
         fetchAuth({ email, password })
       ).unwrap();
       if (userResponse) {
+        await dispatch(fetchUserProfile()).unwrap();
         dispatch(closeModal());
       }
     } catch (error) {

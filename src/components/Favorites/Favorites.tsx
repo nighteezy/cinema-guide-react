@@ -6,47 +6,89 @@ import { Link } from 'react-router-dom';
 import ButtonClose from '../ButtonClose/ButtonClose';
 import { useAppSelector } from '../../store/hooks';
 import { selectUser } from '../../store/authSlice';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
+import Loading from '../Loader/Loader';
+import { EmptyState } from '../EmptyState/EmptyState';
+
+interface FavoritesState {
+  data: Movies;
+  loading: boolean;
+  error: string | null;
+}
 
 const Favorites: FC = () => {
-  const user = useAppSelector(selectUser); // Добавлено
-  const [movieList, setData] = useState<Movies>([]);
+  const user = useAppSelector(selectUser);
+  const [state, setState] = useState<FavoritesState>({
+    data: [],
+    loading: false,
+    error: null,
+  });
   const [hoveredMovieId, setHoveredMovieId] = useState<number | null>(null);
 
-  const getData = async () => {
+  const loadFavorites = async () => {
+    setState(prev => ({ ...prev, loading: true, error: null }));
     try {
       const data = await getFavorites();
-      setData(data);
+      setState({ data, loading: false, error: null });
     } catch (error) {
-      setData([]);
+      setState({
+        data: [],
+        loading: false,
+        error: 'Ошибка загрузки избранных фильмов',
+      });
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    setState(prev => ({ ...prev, loading: true }));
+    try {
+      await deleteFavorites(id);
+      setState(prev => ({
+        ...prev,
+        data: prev.data.filter(movie => movie.id !== id),
+        loading: false,
+      }));
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        error: 'Ошибка при удалении фильма',
+        loading: false,
+      }));
     }
   };
 
   useEffect(() => {
     if (user) {
-      getData();
+      loadFavorites();
     } else {
-      setData([]);
+      setState({ data: [], loading: false, error: null });
     }
   }, [user]);
 
-  if (movieList.length === 0) {
-    return <p>Избранные фильмы отсутствуют.</p>;
+  const { data, loading, error } = state;
+
+  if (loading && !data.length) {
+    return <Loading />;
   }
 
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteFavorites(id);
-      setData(movieList.filter(movie => movie.id !== id));
-    } catch (error) {
-      console.error('Ошибка при удалении:', error);
-    }
-  };
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
+  if (data.length === 0) {
+    return (
+      <EmptyState
+        title="Избранные фильмы отсутствуют"
+        description="Выберите понравившиеся фильмы и добавьте их в избранное"
+      />
+    );
+  }
 
   return (
     <div className="favorites">
       <ul className="favorites__list list-reset">
-        {movieList.map(film => (
-          <div
+        {data.map(film => (
+          <li
             key={film.id}
             className="favorites__item"
             onMouseEnter={() => setHoveredMovieId(film.id)}
@@ -65,7 +107,7 @@ const Favorites: FC = () => {
                 onClick={() => handleDelete(film.id)}
               />
             )}
-          </div>
+          </li>
         ))}
       </ul>
     </div>

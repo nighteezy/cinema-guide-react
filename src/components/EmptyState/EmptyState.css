@@ -5,4 +5,5 @@
 .empty-state__content {
   text-align: center;
   cursor: default;
+  color: var(--color-white);
 }
